@@ -52,7 +52,7 @@ City::City()
 void City::setRobber(Robber<Jewel> & man){
     int i = rand() % 9;
     int j = rand() % 9;
-    while(m_grid[i][j] == JEWEL){
+    while(m_grid[i][j] == JEWEL || m_grid[i][j] == ROBBER || m_grid[i][j] == POLICE){
         i = rand() % 9;
         j = rand() % 9;
     }
@@ -69,12 +69,13 @@ void City::setRobber(Robber<Jewel> & man){
 void City::setPolice(Police & man){
     int i = rand() % 9;
     int j = rand() % 9;
-    while(m_grid[i][j] == JEWEL){
+    while(m_grid[i][j] == JEWEL || m_grid[i][j] == ROBBER || m_grid[i][j] == POLICE){
         i = rand() % 9;
         j = rand() % 9;
     }
     m_grid[i][j] = POLICE;
     man.setLocation(i,j);
+    return;
 }
 void City::printGrid(){
     for(int i = 0; i<SIZE; i++){
@@ -83,6 +84,10 @@ void City::printGrid(){
         }
         cout << endl;
     }
+    return;
+}
+void City::setLocation(const coordinates index, const char character){
+    m_grid[index.x_coord][index.y_coord] = character;
     return;
 }
 ///////////////////////////////////////////////////////////////////////////////

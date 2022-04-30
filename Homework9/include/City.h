@@ -11,16 +11,14 @@
 #ifndef CITY_H
 #define CITY_H
 
+#include "Robber.h"
 #include "Police.h"
 #include <iostream>
 
 using namespace std;
 
 // Declare constants.
-const int SIZE = 10;
-const char JEWEL = 'J';
-const char POLICE = 'p';
-const char ROBBER = 'r';
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -63,7 +61,10 @@ public:
      *      Returns: None
      * ***************************************************************************/
     void setPolice(Police & man);
+    char* getGrid() { return reinterpret_cast<char*>(m_grid); };
     void printGrid();
+    void setLocation(const coordinates index, const char character);
+    friend class Robber<Jewel>;
 private:
     char m_grid[SIZE][SIZE];
     int m_NumOfJewels = 47;    

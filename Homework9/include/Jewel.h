@@ -70,6 +70,12 @@ public:
      *      Returns: Nothing
      * ***********************************************************************/
     void setLocation(const int i, const int j);
+    /**************************************************************************
+     *      Description: Gets the location of the Jewel.
+     *      Parameters: None
+     *      Returns: Coordinate
+     * ***********************************************************************/
+    Coordinate getLocation() { return coordinate; };
 private:
     // Declare class member variables.
     int jewelValue;

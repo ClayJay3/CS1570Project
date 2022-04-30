@@ -38,7 +38,6 @@ Jewel::~Jewel()
 {
     // Nothing to freaking obliterate.
 }
-
 /**************************************************************************
  *      Description: Sets the location of the Jewel.
  * 
@@ -53,6 +52,6 @@ void Jewel::setLocation(const int x, const int y)
     coordinate.y_coord = y;
 
     // Set Jewel value.
-    jewelValue = x * y;
+    jewelValue = x + y;
 }
 ///////////////////////////////////////////////////////////////////////////////

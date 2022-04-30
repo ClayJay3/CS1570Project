@@ -49,12 +49,15 @@ public:
      *      Returns: None
      * ***************************************************************************/
     void move();
+    int getID(){return m_id;}
+    int getLoot(){return m_lootConfiscated;}
+    int getRobbersCaught(){return m_robbersCaught;}
     void setLocation(const int x, const int y);
 private:
     int m_id;
     coordinates m_location;
     int m_lootConfiscated;
-    int m_robbersCaught;    
+    int m_robbersCaught = 0;    
 };
 ///////////////////////////////////////////////////////////////////////////////
 #endif
