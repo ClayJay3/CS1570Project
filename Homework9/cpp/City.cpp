@@ -32,51 +32,17 @@ City::City()
                         jewelsRemaining--;
                     }
                     else{
-                        m_grid[i][j] = '-';
+                        m_grid[i][j] = VOID;
                     }
                 }
                 else{
-                    m_grid[i][j] = '-';
+                    m_grid[i][j] = VOID;
                 }
             }
         }
     }
 }
-/******************************************************************************
-    *      Message: Puts a Robber into an unoccupied location
-    * 
-    *      Parameters: Requires initialized City and Robber
-    * 
-    *      Returns: None
-    * ***************************************************************************/
-void City::setRobber(Robber<Jewel> & man){
-    int i = rand() % 9;
-    int j = rand() % 9;
-    while(m_grid[i][j] == JEWEL || m_grid[i][j] == ROBBER || m_grid[i][j] == POLICE){
-        i = rand() % 9;
-        j = rand() % 9;
-    }
-    m_grid[i][j] = ROBBER;
-    man.setLocation(i,j);
-}
-/******************************************************************************
-    *      Message: Puts a Police Officer into an unoccupied location
-    * 
-    *      Parameters: Requires initialized City and Police Officer
-    * 
-    *      Returns: None
-    * ***************************************************************************/
-void City::setPolice(Police & man){
-    int i = rand() % 9;
-    int j = rand() % 9;
-    while(m_grid[i][j] == JEWEL || m_grid[i][j] == ROBBER || m_grid[i][j] == POLICE){
-        i = rand() % 9;
-        j = rand() % 9;
-    }
-    m_grid[i][j] = POLICE;
-    man.setLocation(i,j);
-    return;
-}
+
 void City::printGrid(){
     for(int i = 0; i<SIZE; i++){
         for(int j = 0; j<SIZE; j++){
@@ -86,7 +52,10 @@ void City::printGrid(){
     }
     return;
 }
-void City::setLocation(const coordinates index, const char character){
+char City::getLocation(const int x, const int y){
+    return m_grid[x][y];
+}
+void City::setLocation(const Coordinate index, const char character){
     m_grid[index.x_coord][index.y_coord] = character;
     return;
 }

@@ -11,15 +11,11 @@
 #ifndef POLICE_H
 #define POLICE_H
 
+#include "City.h"
+
 #include <iostream>
 
 using namespace std;
-
-// Struct definintions
-struct coordinates{
-    int x_coord = 0;
-    int y_coord = 0;
-};
 
 // Declare constants.
 
@@ -33,6 +29,7 @@ struct coordinates{
 class Police
 {
 public:
+    Police(const int id);
     /******************************************************************************
      *      Message: Increments robbersCaught and updates lootConfiscated according to the robber's data
      * 
@@ -55,9 +52,9 @@ public:
     void setLocation(const int x, const int y);
 private:
     int m_id;
-    coordinates m_location;
+    Coordinate m_location;
     int m_lootConfiscated;
-    int m_robbersCaught = 0;    
+    int m_robbersCaught;    
 };
 ///////////////////////////////////////////////////////////////////////////////
 #endif

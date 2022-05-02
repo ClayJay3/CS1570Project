@@ -11,14 +11,18 @@
 #ifndef CITY_H
 #define CITY_H
 
-#include "Robber.h"
-#include "Police.h"
+#include "Jewel.h"
+
 #include <iostream>
 
 using namespace std;
 
 // Declare constants.
-
+const int SIZE = 10;
+const char JEWEL = 'J';
+const char POLICE = 'p';
+const char ROBBER = 'r';
+const char VOID = '-';
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -45,26 +49,9 @@ public:
      *      Returns: An int corresponding to the number of Jewels in the city
      * ***************************************************************************/
     int getNumOfJewels(){return m_NumOfJewels;}
-    /******************************************************************************
-     *      Message: Puts a Robber into an unoccupied location
-     * 
-     *      Parameters: Requires initialized City and Robber
-     * 
-     *      Returns: None
-     * ***************************************************************************/
-    void setRobber(Robber<Jewel> & man);
-    /******************************************************************************
-     *      Message: Puts a Police Officer into an unoccupied location
-     * 
-     *      Parameters: Requires initialized City and Police Officer
-     * 
-     *      Returns: None
-     * ***************************************************************************/
-    void setPolice(Police & man);
-    char* getGrid() { return reinterpret_cast<char*>(m_grid); };
     void printGrid();
-    void setLocation(const coordinates index, const char character);
-    friend class Robber<Jewel>;
+    char getLocation(const int x, const int y);
+    void setLocation(const Coordinate index, const char character);
 private:
     char m_grid[SIZE][SIZE];
     int m_NumOfJewels = 47;    

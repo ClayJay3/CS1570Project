@@ -12,17 +12,14 @@
 #define Robber_h
 
 #include "Jewel.h"
+#include "City.h"
 
 #include <iostream>
 
 using namespace std;
 
 // Declare constants.
-const char JEWEL = 'J';
-const char POLICE = 'p';
-const char ROBBER = 'r';
 const int MAX_BAG_CAP = 17;
-const int SIZE = 10;
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -41,7 +38,7 @@ public:
      * 
      *      Returns: Nothing
      * ***************************************************************************/
-    Robber(const int ID, bool greedy);
+    Robber(const int id = 0, bool greedy = false);
     /******************************************************************************
      *      Description: Robber class destructor.
      * 
@@ -65,7 +62,7 @@ public:
      * 
      *      Returns: Nothing
      * ***************************************************************************/
-    char* move(char *map);
+    void move(City &city);
     /**************************************************************************
      *      Description: Sets the location of the Jewel.
      * 
@@ -91,7 +88,7 @@ public:
      /**************************************************************************
      *      Description: Getters for greedy
      * ***********************************************************************/
-    bool getID() { return robberID; };
+    int getID() { return robberID; };
     /**************************************************************************
      *      Description: Getters for numberOfJewels
      * ***********************************************************************/
@@ -111,12 +108,13 @@ public:
     /**************************************************************************
      *      Description: Getters for location
      * ***********************************************************************/
-    Coordinate getLoction() { return coordinate; };
+    Coordinate getLocation() { return coordinate; };
 private:
     // Define class member variables.
     int                 robberID;
     int                 numberOfJewelsStolen;
     static int          robbersTotalAmountStolen;
+    static char         oldMapData;
     bool                active;
     bool                isGreedy;
     Jewel               bag[MAX_BAG_CAP] = {};
@@ -131,10 +129,10 @@ private:
  *      Returns: Nothing
  * ***************************************************************************/
 template<class T>
-Robber<T>::Robber(const int ID, bool greedy)
+Robber<T>::Robber(const int id, bool greedy)
 {
     // Initialize member variables.
-    robberID = ID;
+    robberID = id;
     numberOfJewelsStolen = 0;
     int robbersTotalAmountStolen = 0;
     active = true;
@@ -162,240 +160,355 @@ Robber<T>::~Robber()
  *      Returns: Nothing
  * ***************************************************************************/
 template<class T>
-char* Robber<T>::move(char *map)
+void Robber<T>::move(City &city)
 {
     // Get the current location of the robber.
     int x = coordinate.x_coord;
     int y = coordinate.y_coord;
-    // Reset old location to '-'
-    // map[x][y] = '-';
-    *map = '-';
-    cout << *map << endl;
-    // // Generate random number for determining movement direction.
-    // int randomMoveNum = (rand() % 8);
 
-    // // Change position based on random number if robber is not greedy.
-    // if (!isGreedy) // Bonus!
-    // {
-    //     switch(randomMoveNum)
-    //     {
-    //         // Move NW
-    //         case 0:
-    //             // Check if coordinate is valid.
-    //             if (coordinate.x_coord > 0)
-    //             {
-    //                 coordinate.x_coord -= 1;
-    //             }
-    //             if (coordinate.y_coord > 0)
-    //             {
-    //                 coordinate.y_coord -= 1;
-    //             }
-    //             break;
+    // Generate random number for determining movement direction.
+    int randomMoveNum = (rand() % 8);
+
+    // Change position based on random number if robber is not greedy.
+    if (!isGreedy) // Bonus!
+    {
+
+        switch(randomMoveNum)
+        {
+            // Move NW
+            case 0:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord > 0)
+                {
+                    coordinate.x_coord -= 1;
+                }
+                if (coordinate.y_coord > 0)
+                {
+                    coordinate.y_coord -= 1;
+                }
+                break;
             
-    //         // Move N
-    //         case 1:
-    //             // Check if coordinate is valid.
-    //             if (coordinate.x_coord > 0)
-    //             {
-    //                 coordinate.x_coord -= 1;
-    //             }
-    //             break;
+            // Move N
+            case 1:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord > 0)
+                {
+                    coordinate.x_coord -= 1;
+                }
+                break;
 
-    //         // Move NE
-    //         case 2:
-    //             // Check if coordinate is valid.
-    //             if (coordinate.x_coord > 0)
-    //             {
-    //                 coordinate.x_coord -= 1;
-    //             }
-    //             if (coordinate.y_coord < SIZE - 1)
-    //             {
-    //                 coordinate.y_coord += 1;
-    //             }
-    //             break;
+            // Move NE
+            case 2:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord > 0)
+                {
+                    coordinate.x_coord -= 1;
+                }
+                if (coordinate.y_coord < SIZE - 1)
+                {
+                    coordinate.y_coord += 1;
+                }
+                break;
 
-    //         // Move W
-    //         case 3:
-    //             // Check if coordinate is valid.
-    //             if (coordinate.y_coord > 0)
-    //             {
-    //                 coordinate.y_coord -= 1;
-    //             }
-    //             break;
+            // Move W
+            case 3:
+                // Check if coordinate is valid.
+                if (coordinate.y_coord > 0)
+                {
+                    coordinate.y_coord -= 1;
+                }
+                break;
 
-    //         // Move E
-    //         case 4:
-    //             // Check if coordinate is valid.
-    //             if (coordinate.y_coord < SIZE - 1)
-    //             {
-    //                 coordinate.y_coord += 1;
-    //             }
-    //             break;
+            // Move E
+            case 4:
+                // Check if coordinate is valid.
+                if (coordinate.y_coord < SIZE - 1)
+                {
+                    coordinate.y_coord += 1;
+                }
+                break;
 
-    //         // Move SW
-    //         case 5:
-    //             // Check if coordinate is valid.
-    //             if (coordinate.x_coord > 0)
-    //             {
-    //                 coordinate.x_coord -= 1;
-    //             }
-    //             if (coordinate.y_coord > 0)
-    //             {
-    //                 coordinate.y_coord -= 1;
-    //             }
-    //             break;
+            // Move SW
+            case 5:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord > 0)
+                {
+                    coordinate.x_coord -= 1;
+                }
+                if (coordinate.y_coord > 0)
+                {
+                    coordinate.y_coord -= 1;
+                }
+                break;
 
-    //         // Move S
-    //         case 6:
-    //             // Check if coordinate is valid.
-    //             if (coordinate.x_coord < SIZE - 1)
-    //             {
-    //                 coordinate.x_coord += 1;
-    //             }
-    //             break;
+            // Move S
+            case 6:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord < SIZE - 1)
+                {
+                    coordinate.x_coord += 1;
+                }
+                break;
 
-    //         // Move SE
-    //         case 7:
-    //             // Check if coordinate is valid.
-    //             if (coordinate.x_coord < SIZE - 1)
-    //             {
-    //                 coordinate.x_coord += 1;
-    //             }
-    //             if (coordinate.y_coord < SIZE - 1)
-    //             {
-    //                 coordinate.y_coord += 1;
-    //             }
-    //             break;
-    //     }
-    // }
-    // else
-    // {
-    //     // Create instance variables.
-    //     bool jewelDirections[8] = {};
+            // Move SE
+            case 7:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord < SIZE - 1)
+                {
+                    coordinate.x_coord += 1;
+                }
+                if (coordinate.y_coord < SIZE - 1)
+                {
+                    coordinate.y_coord += 1;
+                }
+                break;
+        }
+    }
+    else
+    {
+        /**********************************************************************************
+         * BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS 
+         * BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS 
+         * BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS 
+         * BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS 
+         * BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS 
+         * BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS BONUS 
+         * ********************************************************************************/
+        // Create instance variables.
+        bool jewelDirections[8] = {};
 
-    //     // Search each direction to see if it contains a jewel.
-    //     for (int i = 0; i < SIZE; i++)
-    //     {
-    //         // Check NW.
-    //         // Check if within bounds.
-    //         if ((x - i) > 0 && (y - i) > 0)
-    //         {
-    //             // Subtract index from X and Y coords, check each iteration for a jewel.
-    //             char gridVal = map[x - i][y - i];
-    //             // If jewel found at index, set boolean toggle for this direction.
-    //             if (gridVal == JEWEL)
-    //             {
-    //                 jewelDirections[0] = true;   
-    //             } 
-    //         }
+        // Search each direction to see if it contains a jewel.
+        for (int i = 0; i < SIZE; i++)
+        {
+            // Check NW.
+            // Check if within bounds.
+            if ((x - i) > 0 && (y - i) > 0)
+            {
+                // Subtract index from X and Y coords, check each iteration for a jewel.
+                char gridVal = city.getLocation(x - i, y - i);
+                // If jewel found at index, set boolean toggle for this direction.
+                if (gridVal == JEWEL)
+                {
+                    jewelDirections[0] = true;   
+                } 
+            }
 
-    //         // Check N.
-    //         // Check if within bounds.
-    //         if ((x - i) > 0)
-    //         {
-    //             // Subtract index from X, check each iteration for a jewel.
-    //             char gridVal = map[x - i][y];
-    //             // If jewel found at index, set boolean toggle for this direction.
-    //             if (gridVal == JEWEL)
-    //             {
-    //                 jewelDirections[1] = true;
-    //             }
-    //         }
+            // Check N.
+            // Check if within bounds.
+            if ((x - i) > 0)
+            {
+                // Subtract index from X, check each iteration for a jewel.
+                char gridVal = city.getLocation(x - i, y);
+                // If jewel found at index, set boolean toggle for this direction.
+                if (gridVal == JEWEL)
+                {
+                    jewelDirections[1] = true;
+                }
+            }
 
-    //         // Check NE.
-    //         // Check if within bounds.
-    //         if ((x - i) > 0 && (y + i) < SIZE - 1)
-    //         {
-    //             // Sub to X and add to Y, check each iteration for a jewel.
-    //             char gridVal = map[x - i][y + i];
-    //             // If jewel found at index, set boolean toggle for this direction.
-    //             if (gridVal == JEWEL)
-    //             {
-    //                 jewelDirections[2] = true;
-    //             }
-    //         }
+            // Check NE.
+            // Check if within bounds.
+            if ((x - i) > 0 && (y + i) < SIZE)
+            {
+                // Sub to X and add to Y, check each iteration for a jewel.
+                char gridVal = city.getLocation(x - i, y + i);
+                // If jewel found at index, set boolean toggle for this direction.
+                if (gridVal == JEWEL)
+                {
+                    jewelDirections[2] = true;
+                }
+            }
 
-    //         // Check W.
-    //         // Check if within bounds.
-    //         if ((y - i) > 0)
-    //         {
-    //             // Subtract index from Y, check each iteration for a jewel.
-    //             char gridVal = map[x][y - i];
-    //             // If jewel found at index, set boolean toggle for this direction.
-    //             if (gridVal == JEWEL)
-    //             {
-    //                 jewelDirections[3] = true;
-    //             }
-    //         }
+            // Check W.
+            // Check if within bounds.
+            if ((y - i) > 0)
+            {
+                // Subtract index from Y, check each iteration for a jewel.
+                char gridVal = city.getLocation(x, y - i);
+                // If jewel found at index, set boolean toggle for this direction.
+                if (gridVal == JEWEL)
+                {
+                    jewelDirections[3] = true;
+                }
+            }
 
-    //         // Check E.
-    //         // Check if within bounds.
-    //         if ((y + i) < SIZE - 1)
-    //         {
-    //             // Add index to Y, check each iteration for a jewel.
-    //             char gridVal = map[x][y + i];
-    //             // If jewel found at index, set boolean toggle for this direction.
-    //             if (gridVal == JEWEL)
-    //             {
-    //                 jewelDirections[4] = true;
-    //             }
-    //         }
+            // Check E.
+            // Check if within bounds.
+            if (((y + i) < SIZE))
+            {
+                // Add index to Y, check each iteration for a jewel.
+                char gridVal = city.getLocation(x, y + i);
+                // If jewel found at index, set boolean toggle for this direction.
+                if (gridVal == JEWEL)
+                {
+                    jewelDirections[4] = true;
+                }
+            }
 
-    //         // Check SW.
-    //         // Check if within bounds.
-    //         if ((x + i) < SIZE - 1 && (y - i) < 0)
-    //         {
-    //             // Add index to X subtract to Y, check each iteration for a jewel.
-    //             char gridVal = map[x + i][y - i];
-    //             // If jewel found at index, set boolean toggle for this direction.
-    //             if (gridVal == JEWEL)
-    //             {
-    //                 jewelDirections[5] = true;
-    //             }
-    //         }
+            // Check SW.
+            // Check if within bounds.
+            if ((x + i < SIZE) && (y - i > 0))
+            {
+                // Add index to X subtract to Y, check each iteration for a jewel.
+                char gridVal = city.getLocation(x + i, y - i);
+                // If jewel found at index, set boolean toggle for this direction.
+                if (gridVal == JEWEL)
+                {
+                    jewelDirections[5] = true;
+                }
+            }
 
-    //         // Check S.
-    //         // Check if within bounds.
-    //         if ((x + i) < SIZE - 1)
-    //         {
-    //             // Add index to X, check each iteration for a jewel.
-    //             char gridVal = map[x + i][y];
-    //             // If jewel found at index, set boolean toggle for this direction.
-    //             if (gridVal == JEWEL)
-    //             {
-    //                 jewelDirections[6] = true;
-    //             }
-    //         }
+            // Check S.
+            // Check if within bounds.
+            if ((x + i) < SIZE)
+            {
+                // Add index to X, check each iteration for a jewel.
+                char gridVal = city.getLocation(x + i, y);
+                // If jewel found at index, set boolean toggle for this direction.
+                if (gridVal == JEWEL)
+                {
+                    jewelDirections[6] = true;
+                }
+            }
 
-    //         // Check SE.
-    //         // Check if within bounds.
-    //         if ((x + i) < SIZE - 1 && (y + i) < SIZE - 1)
-    //         {
-    //             // Add index to X and Y, check each iteration for a jewel.
-    //             char gridVal = map[x + i][y + i];
-    //             // If jewel found at index, set boolean toggle for this direction.
-    //             if (gridVal == JEWEL)
-    //             {
-    //                 jewelDirections[7] = true;
-    //             }
-    //         }
-    //     }
+            // Check SE.
+            // Check if within bounds.
+            if ((x + i) < SIZE && (y + i) < SIZE)
+            {
+                // Add index to X and Y, check each iteration for a jewel.
+                char gridVal = city.getLocation(x + i,y + i);
+                // If jewel found at index, set boolean toggle for this direction.
+                if (gridVal == JEWEL)
+                {
+                    jewelDirections[7] = true;
+                }
+            }
+        }
 
-    //     // After getting valid movement directions for the greedy robber, generat a random number and move.
+        // After getting valid movement directions for the greedy robber, generate a random number and move.
+        bool isDirectionWithJewel = false;
+        int direction = 0;
+        while (!isDirectionWithJewel)
+        {
+            // Generate new random number.
+            direction = rand() % 8;
 
-    // }
+            // Check if direction is valid.
+            if (jewelDirections[direction])
+            {
+                isDirectionWithJewel = true;
+            }
+        }
 
-    // // After moving to the new spot determine what to do.
-    // if(map[coordinate.x_coord][coordinate.y_coord] == POLICE){
-        
-    // }
+        // Actually move.
+        switch(direction)
+        {
+            // Move NW
+            case 0:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord > 0)
+                {
+                    coordinate.x_coord -= 1;
+                }
+                if (coordinate.y_coord > 0)
+                {
+                    coordinate.y_coord -= 1;
+                }
+                break;
+            
+            // Move N
+            case 1:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord > 0)
+                {
+                    coordinate.x_coord -= 1;
+                }
+                break;
+
+            // Move NE
+            case 2:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord > 0)
+                {
+                    coordinate.x_coord -= 1;
+                }
+                if (coordinate.y_coord < SIZE - 1)
+                {
+                    coordinate.y_coord += 1;
+                }
+                break;
+
+            // Move W
+            case 3:
+                // Check if coordinate is valid.
+                if (coordinate.y_coord > 0)
+                {
+                    coordinate.y_coord -= 1;
+                }
+                break;
+
+            // Move E
+            case 4:
+                // Check if coordinate is valid.
+                if (coordinate.y_coord < SIZE - 1)
+                {
+                    coordinate.y_coord += 1;
+                }
+                break;
+
+            // Move SW
+            case 5:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord > 0)
+                {
+                    coordinate.x_coord -= 1;
+                }
+                if (coordinate.y_coord > 0)
+                {
+                    coordinate.y_coord -= 1;
+                }
+                break;
+
+            // Move S
+            case 6:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord < SIZE - 1)
+                {
+                    coordinate.x_coord += 1;
+                }
+                break;
+
+            // Move SE
+            case 7:
+                // Check if coordinate is valid.
+                if (coordinate.x_coord < SIZE - 1)
+                {
+                    coordinate.x_coord += 1;
+                }
+                if (coordinate.y_coord < SIZE - 1)
+                {
+                    coordinate.y_coord += 1;
+                }
+                break;
+        }
+    }
+
+    // Set old location to a dash.
+    Coordinate oldLocation = {.x_coord = x, .y_coord = y};
+    city.setLocation(oldLocation, VOID);
+
+    // Store the current map value.
+    char oldMapVal = city.getLocation()
+
+    // Set new location to robber.
+    city.setLocation(coordinate, ROBBER);
+
+    // After moving to the new spot determine what to do.
+    // if(map[coordinate.x_coord][coordinate.y_coord] == POLICE){}
     // else if(map[coordinate.x_coord][coordinate.y_coord] == JEWEL){}
     // else if(map[coordinate.x_coord][coordinate.y_coord] == ROBBER){}
-    // else{
-        
-    // }
-
-    return reinterpret_cast<char*>(map);
+    // else{}
+    return;
 }
 
 /**************************************************************************

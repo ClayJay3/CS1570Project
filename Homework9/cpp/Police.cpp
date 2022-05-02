@@ -11,6 +11,13 @@
 #include "../include/Police.h"
 
 using namespace std;
+
+Police::Police(const int id)
+{
+    m_id = id; 
+    m_lootConfiscated = 0; 
+    m_robbersCaught = 0;
+}
 /******************************************************************************
     *      Message: Increments robbersCaught and updates lootConfiscated according to the robber's data
     * 

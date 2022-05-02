@@ -20,33 +20,66 @@ using namespace std;
 ******************************************************************************/
 int main()
 {
+    // Set random seed.
     srand(85);
+
+    // Create game objects and variables.
     City metrocity;
-    Police metroMan;
+    Police metroMan(42069);
     Robber<Jewel> halStewart(69, false);
     Robber<Jewel> damien(420, false);
     Robber<Jewel> megamind(8008135, true);
-    Robber<Jewel> minion(1, true);
-    metrocity.setPolice(metroMan);
-    metrocity.setRobber(halStewart);
-    metrocity.setRobber(damien);
-    metrocity.setRobber(megamind);
-    metrocity.setRobber(minion);
+    Robber<Jewel> minion(2, true);
+    Robber<Jewel> robbers[4] = {halStewart, damien, megamind, minion};
+    
+    // Initialize police and robber locations.
+    // Create instance variables.
+    int i = rand() % 9;
+    int j = rand() % 9;
+
+    // Continue getting random numbers until we land on an empty spot.
+    while(metrocity.getLocation(i,j) == JEWEL || metrocity.getLocation(i,j) == ROBBER || metrocity.getLocation(i,j) == POLICE){
+        i = rand() % 9;
+        j = rand() % 9;
+    }
+
+    // Create new coordinate location at i and j.
+    Coordinate location = {.x_coord = i, .y_coord = j};
+
+    metrocity.setLocation(location, POLICE);
+    metroMan.setLocation(i,j);
+    // Robbers begin here.
+    for (Robber<Jewel>& robber : robbers)
+    {
+        // Continue getting random numbers until we land on an empty spot.
+        while(metrocity.getLocation(i,j) == JEWEL || metrocity.getLocation(i,j) == ROBBER || metrocity.getLocation(i,j) == POLICE){
+            i = rand() % 9;
+            j = rand() % 9;
+        }
+
+        // Create new coordinate location at i and j.
+        Coordinate location = {.x_coord = i, .y_coord = j};
+
+        metrocity.setLocation(location, ROBBER);
+        robber.setLocation(i,j);
+    }
+
+
     metrocity.printGrid();
     int rounds = 1;
-    while(rounds <= 30){
+    while(rounds <= 3){
 
-        if(halStewart.getIsActive()){
-            halStewart.move(metrocity.getGrid());
+        if(robbers[0].getIsActive()){
+            robbers[0].move(metrocity);
         }
-        if(damien.getIsActive()){
-            damien.move(metrocity.getGrid());
+        if(robbers[1].getIsActive()){
+            robbers[1].move(metrocity);
         }
-        if(megamind.getIsActive()){
-            megamind.move(metrocity.getGrid());
+        if(robbers[2].getIsActive()){
+            robbers[2].move(metrocity);
         }
-        if(minion.getIsActive()){
-            minion.move(metrocity.getGrid());
+        if(robbers[3].getIsActive()){
+            robbers[3].move(metrocity);
         }
         metroMan.move();
         cout << "Round " << rounds << ":" << endl;
@@ -60,18 +93,17 @@ int main()
     cout << "\t Police ID: " << metroMan.getID() << endl;
     cout << "\t\t Confiscated Jewels amount: $" << metroMan.getLoot() << endl;
     cout << "\t\t Final number of robbers caught: " << metroMan.getRobbersCaught() << endl;
-    cout << "\t Ordinary Robber ID: " << halStewart.getID() << endl;
-    cout << "\t\t Final number of jewels picked up: " << halStewart.getNumberOfJewelsStolen() << endl;
-    cout << "\t\t Total jewel worth: $" << halStewart.getTotalValue() << endl;
-    cout << "\t Ordinary Robber ID: " << damien.getID() << endl;
-    cout << "\t\t Final number of jewels picked up: " << damien.getNumberOfJewelsStolen() << endl;
-    cout << "\t\t Total jewel worth: $" << damien.getTotalValue() << endl;
-    cout << "\t Ordinary Robber ID: " << megamind.getID() << endl;
-    cout << "\t\t Final number of jewels picked up: " << megamind.getNumberOfJewelsStolen() << endl;
-    cout << "\t\t Total jewel worth: $" << megamind.getTotalValue() << endl;
-    cout << "\t Ordinary Robber ID: " << minion.getID() << endl;
-    cout << "\t\t Final number of jewels picked up: " << minion.getNumberOfJewelsStolen() << endl;
-    cout << "\t\t Total jewel worth: $" << minion.getTotalValue() << endl;
+    for (i = 0; i<4; i++)
+    {   
+        if(!robbers[i].getIsGreedy()){
+            cout << "\t Ordinary Robber ID: " << robbers[i].getID() << endl;
+        }
+        else{
+            cout << "\t Greedy Robber ID: " << robbers[i].getID() << endl;
+        }
+        cout << "\t\t Final number of jewels picked up: " << robbers[i].getNumberOfJewelsStolen() << endl;
+        cout << "\t\t Total jewel worth: $" << robbers[i].getTotalValue() << endl;
+    }
 
     // Report program exit status.
     return EXIT_SUCCESS;
