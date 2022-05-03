@@ -1,6 +1,6 @@
 /******************************************************************************
     PProgrammer: Clayton Cowen (crcqdc)
-                Will Weidler (wawq97)
+                 Will Weidler (wawq97)
     Student ID: 12578792
                 12578421
     Section: 307
@@ -66,10 +66,10 @@ public:
     void setJewelValue(const int value) { jewelValue = value; };
     /**************************************************************************
      *      Description: Sets the location of the Jewel.
-     *      Parameters: INT - the i pos, INT - the j pos.
+     *      Parameters: COORDINATE - the location
      *      Returns: Nothing
      * ***********************************************************************/
-    void setLocation(const int i, const int j);
+    void setLocation(Coordinate coords);
     /**************************************************************************
      *      Description: Gets the location of the Jewel.
      *      Parameters: None

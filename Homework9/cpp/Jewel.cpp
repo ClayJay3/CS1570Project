@@ -41,17 +41,17 @@ Jewel::~Jewel()
 /**************************************************************************
  *      Description: Sets the location of the Jewel.
  * 
- *      Parameters: INT - the i pos, INT - the j pos.
+ *      Parameters: COORDINATE - the coordinate to set the jewel to.
  * 
  *      Returns: Nothing
  * ***********************************************************************/
-void Jewel::setLocation(const int x, const int y)
+void Jewel::setLocation(Coordinate coords)
 {
     // Set coordinates.
-    coordinate.x_coord = x;
-    coordinate.y_coord = y;
+    coordinate.x_coord = coords.x_coord;
+    coordinate.y_coord = coords.y_coord;
 
     // Set Jewel value.
-    jewelValue = x + y;
+    jewelValue = coords.x_coord + coords.y_coord;
 }
 ///////////////////////////////////////////////////////////////////////////////

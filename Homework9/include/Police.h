@@ -12,6 +12,7 @@
 #define POLICE_H
 
 #include "City.h"
+#include "Robber.h"
 
 #include <iostream>
 
@@ -37,7 +38,7 @@ public:
      * 
      *      Returns: None
      * ***************************************************************************/
-    void arrest();
+    void arrest(Robber<Jewel> &robber);
     /******************************************************************************
      *      Message: Increments robbersCaught and updates lootConfiscated according to the robber's data
      * 
@@ -45,7 +46,7 @@ public:
      * 
      *      Returns: None
      * ***************************************************************************/
-    void move();
+    void move(City &city);
     int getID(){return m_id;}
     int getLoot(){return m_lootConfiscated;}
     int getRobbersCaught(){return m_robbersCaught;}

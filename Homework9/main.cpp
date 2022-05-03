@@ -64,10 +64,9 @@ int main()
         robber.setLocation(i,j);
     }
 
-
     metrocity.printGrid();
     int rounds = 1;
-    while(rounds <= 3){
+    while((rounds <= 30) && (robbers[0].getTotalAmountStolen() < 438)){
 
         if(robbers[0].getIsActive()){
             robbers[0].move(metrocity);
@@ -81,7 +80,7 @@ int main()
         if(robbers[3].getIsActive()){
             robbers[3].move(metrocity);
         }
-        metroMan.move();
+        metroMan.move(metrocity);
         cout << "Round " << rounds << ":" << endl;
         metrocity.printGrid();
         rounds++;
