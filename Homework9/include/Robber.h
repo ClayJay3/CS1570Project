@@ -548,7 +548,10 @@ void Robber<T>::move(City &city)
             }
 
             // Set old location.
-            Coordinate oldLocation = {.x_coord = x, .y_coord = y};
+            Coordinate oldLocation;
+            oldLocation.x_coord = x;
+            oldLocation.y_coord = y;
+
             // If robbers bag is full, replace old spot with a jewel.
             if (replaceOldLocationWithJewel)
             {

@@ -44,7 +44,9 @@ int main()
     }
 
     // Create new coordinate location at i and j.
-    Coordinate location = {.x_coord = i, .y_coord = j};
+    Coordinate location;
+    location.x_coord = i;
+    location.y_coord = j;
 
     metrocity.setLocation(location, POLICE);
     metroMan.setLocation(i,j);
@@ -58,7 +60,8 @@ int main()
         }
 
         // Create new coordinate location at i and j.
-        Coordinate location = {.x_coord = i, .y_coord = j};
+        location.x_coord = i;
+        location.y_coord = j;
 
         metrocity.setLocation(location, ROBBER);
         robber.setLocation(i,j);
