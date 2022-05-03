@@ -424,6 +424,7 @@ void Robber<T>::move(City &city)
 
                 // After getting valid movement directions for the greedy robber, generate a random number and move.
                 bool isDirectionWithJewel = false;
+                bool doWeEvenHaveAGoodFrickenVal = false;
                 int direction = 0;
                 int counter = 0;
                 while (!isDirectionWithJewel)
@@ -444,7 +445,7 @@ void Robber<T>::move(City &city)
                     }
 
                     // Check if counter has overrun.
-                    if (counter > 7)
+                    if (!doWeEvenHaveAGoodFrickenVal && counter > 7)
                     {
                         isDirectionWithJewel = true;
                     }
