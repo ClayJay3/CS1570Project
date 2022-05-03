@@ -149,7 +149,9 @@ void Police::move(City &city)
     }
 
     // Store old location and city map value.
-    Coordinate oldLocation = {.x_coord = x, .y_coord = y};
+    Coordinate oldLocation;
+    oldLocation.x_coord = x;
+    oldLocation.y_coord = y;
     char oldNextMapData = city.getLocation(oldLocation.x_coord, oldLocation.y_coord);
     // Set old location to a dash.
     city.setLocation(oldLocation, VOID);
