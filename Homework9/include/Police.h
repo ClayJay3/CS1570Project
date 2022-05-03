@@ -49,7 +49,10 @@ public:
     void move(City &city);
     int getID(){return m_id;}
     int getLoot(){return m_lootConfiscated;}
+    void setLoot(const int value) {m_lootConfiscated = value; return;}
     int getRobbersCaught(){return m_robbersCaught;}
+    void setCaught(const int value) {m_robbersCaught = value; return;}
+    Coordinate getLocation() { return m_location; }
     void setLocation(const int x, const int y);
 private:
     int m_id;

@@ -89,6 +89,7 @@ public:
      *      Returns: Nothing
      * **********************************************************************/
     void setIsActive(bool isActive);
+    void setJewelsStolen(const int value);
     
     // One-line methods.
     /*************************************************************************
@@ -178,7 +179,7 @@ void Robber<T>::move(City &city)
     bool moveAgain;
 
     // Check if the robber is active.
-    if (getIsActive() && getTotalAmountStolen() <= 438)
+    if (getIsActive() && getTotalAmountStolen() <= MAXROBBERLOOT)
     {
         // Do-while loop for multiple turns of a greedy robber.
         do
@@ -411,7 +412,9 @@ void Robber<T>::move(City &city)
 
                 // After getting valid movement directions for the greedy robber, generate a random number and move.
                 bool isDirectionWithJewel = false;
+                bool doWeEvenHaveAGoodFrickenVal = false;
                 int direction = 0;
+                int counter = 0;
                 while (!isDirectionWithJewel)
                 {
                     // Generate new random number.
@@ -422,6 +425,21 @@ void Robber<T>::move(City &city)
                     {
                         isDirectionWithJewel = true;
                     }
+
+                    // Check bool at array location.
+                    if (jewelDirections[counter] == true)
+                    {
+                        doWeEvenHaveAGoodFrickenVal = true;
+                    }
+
+                    // Check if counter has overrun.
+                    if (counter > 7)
+                    {
+                        isDirectionWithJewel = true;
+                    }
+
+                    // Increment counter.
+                    counter++;
                 }
 
                 // Actually move.
@@ -577,7 +595,8 @@ void Robber<T>::move(City &city)
                     for(int i = jewelsToDrop; i < tempJewelsStolen; i++)
                     {
                         robbersTotalAmountStolen -= bag[i].getJewelValue();
-                        if(city.getLocation(bag[i].getLocation().x_coord, bag[i].getLocation().y_coord) != VOID){
+                        if(city.getLocation(bag[i].getLocation().x_coord, bag[i].getLocation().y_coord) != VOID)
+                        {
                             city.setLocation(bag[i].getLocation(), JEWEL);
                         }
                         else
@@ -586,7 +605,18 @@ void Robber<T>::move(City &city)
                         }
                         numberOfJewelsStolen--;
                     }
-                    cout << "In the panic, greedy robber number " << robberID << " dropped " << jewelsDropped << " jewels!" << endl;
+                    if(jewelsDropped != 0)
+                    {
+                        cout << "The greedy robber number " << robberID << " got too excited and dropped " << jewelsDropped;
+                        if (jewelsDropped == 1)
+                        {
+                            cout << "jewel!" << endl;
+                        }
+                        else
+                        {
+                            cout << " jewels!" << endl;
+                        }
+                    }
                 }
             }            
             // Increment turn counter.
@@ -651,8 +681,14 @@ int Robber<T>::getTotalValue(){
 template <class T>
 void Robber<T>::setIsActive(bool isActive) 
 { 
-    active = isActive; 
+    active = isActive;
     robbersTotalAmountStolen -= getTotalValue();
+    return;
+}
+template <class T>
+void Robber<T>::setJewelsStolen(const int value)
+{
+    numberOfJewelsStolen = value;
     return;
 }
 ///////////////////////////////////////////////////////////////////////////////

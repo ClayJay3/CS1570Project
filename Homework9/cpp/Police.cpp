@@ -29,8 +29,8 @@ void Police::arrest(Robber<Jewel> &robber)
 {
     m_lootConfiscated += robber.getTotalValue(); // Robber's stolen loot here
     m_robbersCaught++;
+    robber.setJewelsStolen(0);
     robber.setIsActive(false);
-    
 }
 /******************************************************************************
     *      Message: Changes Police location based on where the closest Robber is

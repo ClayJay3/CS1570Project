@@ -34,13 +34,13 @@ int main()
     
     // Initialize police and robber locations.
     // Create instance variables.
-    int i = rand() % 9;
-    int j = rand() % 9;
+    int i = rand() % SIZE - 1;
+    int j = rand() % SIZE - 1;
 
     // Continue getting random numbers until we land on an empty spot.
     while(metrocity.getLocation(i,j) == JEWEL || metrocity.getLocation(i,j) == ROBBER || metrocity.getLocation(i,j) == POLICE){
-        i = rand() % 9;
-        j = rand() % 9;
+        i = rand() % SIZE - 1;
+        j = rand() % SIZE - 1;
     }
 
     // Create new coordinate location at i and j.
@@ -53,8 +53,8 @@ int main()
     {
         // Continue getting random numbers until we land on an empty spot.
         while(metrocity.getLocation(i,j) == JEWEL || metrocity.getLocation(i,j) == ROBBER || metrocity.getLocation(i,j) == POLICE){
-            i = rand() % 9;
-            j = rand() % 9;
+            i = rand() % SIZE - 1;
+            j = rand() % SIZE - 1;
         }
 
         // Create new coordinate location at i and j.
@@ -66,8 +66,10 @@ int main()
 
     metrocity.printGrid();
     int rounds = 1;
-    while((rounds <= 30) && (robbers[0].getTotalAmountStolen() < 438)){
-
+    bool activeRobber = true;
+    while((rounds <= ROUNDS) && (robbers[0].getTotalAmountStolen() < MAXROBBERLOOT) && activeRobber){
+        cout << "Round " << rounds << ":" << endl;
+        // Move police and robbers on city map.
         if(robbers[0].getIsActive()){
             robbers[0].move(metrocity);
         }
@@ -81,13 +83,55 @@ int main()
             robbers[3].move(metrocity);
         }
         metroMan.move(metrocity);
-        cout << "Round " << rounds << ":" << endl;
+
+        // Check if a police and robber occupy the same spot.
+        for (Robber<Jewel> &robber : robbers)
+        {
+            // Check the police and robbers location.
+            if ((robber.getLocation().x_coord == metroMan.getLocation().x_coord) && (robber.getLocation().y_coord == metroMan.getLocation().y_coord) && robber.getIsActive())
+            {
+                // Tell police to arrest robber.
+                metroMan.arrest(robber);
+                cout << "Robber number " << robber.getID() << " was arrested!" << endl;
+
+                // Remove robber from the city.
+                metrocity.setLocation(robber.getLocation(), POLICE);
+            }
+        }
+
+        // Print grid and increment rounds.
         metrocity.printGrid();
+        cout << "Total loot stolen: $" << robbers[0].getTotalAmountStolen() << endl;
         rounds++;
+        activeRobber = false;
+        for(Robber<Jewel>& robber : robbers)
+        {
+            if(robber.getIsActive())
+            {
+                activeRobber = true;
+            }
+        }
     }
-    if(rounds == 31){
+
+    if(rounds > ROUNDS){
         cout << "Summary of the chase:" << endl;
-        cout << "The robbers wins the chase because maximum turns (30) have been reached." << endl;
+        cout << "The robbers wins the chase because maximum turns (" << ROUNDS << ") have been reached." << endl;
+    }
+    else if(!activeRobber)
+    {
+        cout << "Summary of the chase:" << endl;
+        cout << "The police win the chase because all of the robbers have been arrested." << endl;
+    }
+    else
+    {
+        cout << "Summary of the chase:" << endl;
+        cout << "The robbers manage to bribe the police officer to set their friends free and walk away with nothing." << endl;
+        metroMan.setLoot(robbers[0].getTotalAmountStolen());
+        metroMan.setCaught(0);
+        for(Robber<Jewel>& robber : robbers)
+        {
+            robber.setJewelsStolen(0);
+        }
     }
     cout << "\t Police ID: " << metroMan.getID() << endl;
     cout << "\t\t Confiscated Jewels amount: $" << metroMan.getLoot() << endl;

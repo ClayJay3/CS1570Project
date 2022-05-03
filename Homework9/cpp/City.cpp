@@ -22,7 +22,8 @@ using namespace std;
      * ***************************************************************************/
 City::City()
 {
-    int jewelsRemaining = 47;
+    int jewelsRemaining = MAXJEWELS;
+    m_NumOfJewels = MAXJEWELS;
     for(int i = 0; i<SIZE; i++){
         for(int j = 0; j<SIZE; j++){
             if(m_grid[i][j] != JEWEL){

@@ -18,7 +18,10 @@
 using namespace std;
 
 // Declare constants.
+const int ROUNDS = 30;
+const int MAXJEWELS = 47;
 const int SIZE = 10;
+const int MAXROBBERLOOT = 438;
 const char JEWEL = 'J';
 const char POLICE = 'p';
 const char ROBBER = 'r';
@@ -76,7 +79,7 @@ public:
     void setLocation(const Coordinate index, const char character);
 private:
     char m_grid[SIZE][SIZE];
-    int m_NumOfJewels = 47;    
+    int m_NumOfJewels;    
 };
 ///////////////////////////////////////////////////////////////////////////////
 #endif
