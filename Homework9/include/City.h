@@ -77,6 +77,14 @@ public:
      *      Returns: Nothing
      * ***************************************************************************/
     void setLocation(const Coordinate index, const char character);
+    /*************************************************************************
+     *      Description: Subtracts one from the jewel count.
+     * 
+     *      Parameters: None
+     * 
+     *      Returns: Nothing
+     * **********************************************************************/
+    void decrementJewels() {m_NumOfJewels--; return;}
 private:
     char m_grid[SIZE][SIZE];
     int m_NumOfJewels;    

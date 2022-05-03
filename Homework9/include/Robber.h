@@ -19,7 +19,7 @@
 using namespace std;
 
 // Declare constants.
-const int MAX_BAG_CAP = 17;
+const int MAX_BAG_CAP = 17; // 17
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -71,7 +71,13 @@ public:
      *      Returns: Nothing
      * ***********************************************************************/
     void setLocation(const int x, const int y);
-
+    /**************************************************************************
+     *      Description: Gets the value of the jewel
+     * 
+     *      Parameters: INT - the index in a robbers bag
+     *
+     *      Returns: An int corresponding to the monetary value of the jewel
+     * ***********************************************************************/
     int getJewelValue(const int index);
     /******************************************************************************
      *      Description: Get the total value of all jewels for a given robber.
@@ -89,6 +95,13 @@ public:
      *      Returns: Nothing
      * **********************************************************************/
     void setIsActive(bool isActive);
+    /*************************************************************************
+     *      Description: Setters for JewelsStolen
+     * 
+     *      Parameters: INT - the value to set.
+     * 
+     *      Returns: Nothing
+     * **********************************************************************/
     void setJewelsStolen(const int value);
     
     // One-line methods.
@@ -116,7 +129,6 @@ public:
      *      Description: Getters for location
      * ***********************************************************************/
     Coordinate getLocation() { return coordinate; };
-    friend class Police;
 private:
     // Define class member variables.
     int                 robberID;
@@ -545,6 +557,8 @@ void Robber<T>::move(City &city)
             else
             {
                 city.setLocation(oldLocation, VOID);
+                // Decrement jewels count.
+                city.decrementJewels();
             }
 
             // Make new easy to use coordinate.
@@ -663,13 +677,26 @@ void Robber<T>::pickUpLoot(T loot)
         replaceOldLocationWithJewel = true;
     }
 }
-
+/**************************************************************************
+    *      Description: Gets the value of the jewel
+    * 
+    *      Parameters: INT - the index in a robbers bag
+    *
+    *      Returns: An int corresponding to the monetary value of the jewel
+    * ***********************************************************************/
 template<class T>
 int Robber<T>::getJewelValue(const int index){
     int sum = 0;
     sum = (bag[index].getJewelValue());
     return sum;
 }
+/******************************************************************************
+    *      Description: Get the total value of all jewels for a given robber.
+    * 
+    *      Parameters: An initialized robber
+    * 
+    *      Returns: A value corresponding to the total number of jewels in the robber's bag
+    * ***************************************************************************/  
 template <class T>
 int Robber<T>::getTotalValue(){
     int sum = 0;
@@ -678,6 +705,13 @@ int Robber<T>::getTotalValue(){
     }
     return sum;
 }
+/*************************************************************************
+    *      Description: Setters for Active
+    * 
+    *      Parameters: BOOL - the toggle.
+    * 
+    *      Returns: Nothing
+    * **********************************************************************/
 template <class T>
 void Robber<T>::setIsActive(bool isActive) 
 { 
@@ -685,6 +719,13 @@ void Robber<T>::setIsActive(bool isActive)
     robbersTotalAmountStolen -= getTotalValue();
     return;
 }
+/*************************************************************************
+    *      Description: Setters for JewelsStolen
+    * 
+    *      Parameters: INT - the value to set.
+    * 
+    *      Returns: Nothing
+    * **********************************************************************/
 template <class T>
 void Robber<T>::setJewelsStolen(const int value)
 {

@@ -12,19 +12,27 @@
 
 using namespace std;
 
+/**************************************************************************
+ *      Description: Police constructor.
+ * 
+ *      Parameters: CONST INT ID - the police id number.
+ * 
+ *      Returns: Nothing
+ * ***********************************************************************/
 Police::Police(const int id)
 {
     m_id = id; 
     m_lootConfiscated = 0; 
     m_robbersCaught = 0;
 }
+
 /******************************************************************************
-    *      Message: Increments robbersCaught and updates lootConfiscated according to the robber's data
-    * 
-    *      Parameters: Requires initialized City, Police, and Robber
-    * 
-    *      Returns: None
-    * ***************************************************************************/
+*      Message: Increments robbersCaught and updates lootConfiscated according to the robber's data
+* 
+*      Parameters: Requires initialized City, Police, and Robber
+* 
+*      Returns: None
+* ***************************************************************************/
 void Police::arrest(Robber<Jewel> &robber)
 {
     m_lootConfiscated += robber.getTotalValue(); // Robber's stolen loot here
@@ -33,12 +41,12 @@ void Police::arrest(Robber<Jewel> &robber)
     robber.setIsActive(false);
 }
 /******************************************************************************
-    *      Message: Changes Police location based on where the closest Robber is
-    * 
-    *      Parameters: Requires initialized City, Police, and Robber
-    * 
-    *      Returns: None
-    * ***************************************************************************/
+*      Message: Changes Police location based on where the closest Robber is
+* 
+*      Parameters: Requires initialized City, Police, and Robber
+* 
+*      Returns: None
+* ***************************************************************************/
 void Police::move(City &city)
 {
     // Get the current location of the police.
@@ -158,11 +166,17 @@ void Police::move(City &city)
 
         // Add jewel value to cops nums.
         m_lootConfiscated += newJewel.getJewelValue();
+        city.decrementJewels();
     }
 
 }
-
-
+/******************************************************************************
+    *      Message: Sets the Police object on a loction in the city grid
+    * 
+    *      Parameters: Requires initialized City and Police
+    * 
+    *      Returns: None
+    * ***************************************************************************/
 void Police::setLocation(const int x, const int y)
 {
     // Set coordinates.
